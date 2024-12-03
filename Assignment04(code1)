@@ -1,0 +1,43 @@
+#include <iostream> 
+#include <vector> 
+#include <algorithm> 
+using namespace std; 
+
+void generateSubsets(int index, vector<int>& elements, vector<int>& currentSubset, vector<vector<int>>& resultList) { 
+    resultList.push_back(currentSubset); 
+    for (int i = index; i < elements.size(); i++) { 
+        if (i != index && elements[i] == elements[i - 1]) 
+            continue; 
+
+        currentSubset.push_back(elements[i]); 
+        generateSubsets(i + 1, elements, currentSubset, resultList); 
+        currentSubset.pop_back(); 
+    } 
+} 
+
+vector<vector<int>> getAllSubsets(int inputArray[], int size) { 
+    vector<int> elements(inputArray, inputArray + size); 
+    vector<int> currentSubset; 
+    sort(elements.begin(), elements.end()); 
+    vector<vector<int>> resultList; 
+    generateSubsets(0, elements, currentSubset, resultList); 
+    return resultList; 
+} 
+
+int main() { 
+    int inputSet[] = { 10, 12, 12 }; 
+    vector<vector<int>> subsets = getAllSubsets(inputSet, 3); 
+
+    for (auto subset : subsets) { 
+        cout << "["; 
+        for (int i = 0; i < subset.size(); i++) { 
+            cout << subset[i]; 
+            if (i < subset.size() - 1) { 
+                cout << ", "; 
+            } 
+        } 
+        cout << "], "; 
+    } 
+
+    return 0; 
+}
